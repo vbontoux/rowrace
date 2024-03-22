@@ -3,6 +3,7 @@ import json
 from streamlit_cognito_auth import CognitoAuthenticator
 from st_pages import Page, show_pages, hide_pages
 from utils.page_list import list_of_pages
+from config_file import Config
 
 class Auth:
 
@@ -43,27 +44,34 @@ class Auth:
         '''
         
         # Initialise CognitoAuthenticator
-        authenticator = Auth._get_authenticator(secrets_manager_id)
-        
-        # Authenticate user, and stop here if not logged in
-        is_logged_in = authenticator.login()
-        
-        def logout():
-            authenticator.logout()
-        
-        if not is_logged_in:
-            hide_pages([elt[1] for elt in list_of_pages])
-            st.stop()
+        if not Config.ROWRACE_LOCAL_MODE:
+          authenticator = Auth._get_authenticator(secrets_manager_id)
+          
+          # Authenticate user, and stop here if not logged in
+          is_logged_in = authenticator.login()
+          
+          def logout():
+              authenticator.logout()
+          
+          if not is_logged_in:
+              hide_pages([elt[1] for elt in list_of_pages])
+              st.stop()
 
-        # Specify what pages should be shown in the sidebar, and what their titles and icons
-        # should be
-        show_pages(
-            [Page(*elt) for elt in list_of_pages]
-        ) 
+          with st.sidebar:
+              st.text(f"Welcome,\n{authenticator.get_username()}")
+              st.button("Logout", "logout_btn", on_click=logout)
 
-        with st.sidebar:
-            st.text(f"Welcome,\n{authenticator.get_username()}")
-            st.button("Logout", "logout_btn", on_click=logout)
+          # Specify what pages should be shown in the sidebar, and what their titles and icons
+          # should be
+          show_pages(
+              [Page(*elt) for elt in list_of_pages]
+          )
+        else:
+          is_logged_in = True
+          st.sidebar.text("Welcome, \ntest")
+          show_pages(
+              [Page(*elt) for elt in list_of_pages]
+          )
 
         return is_logged_in
         

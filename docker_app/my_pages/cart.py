@@ -4,7 +4,6 @@ import streamlit as st
 import numpy as np
 from utils.auth import Auth
 from config_file import Config
-from utils.llm import Llm
 
 # Perform auth and stop if not authenticated
 # Also display sidebar

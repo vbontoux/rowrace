@@ -6,21 +6,15 @@ from config_file import Config
 # Also display sidebar
 Auth.perform_auth(st, Config.SECRETS_MANAGER_ID)
 
-st.write("# Welcome to Streamlit! 👋")
+st.write("# Bienvenu sur le site d'inscription ! 👋")
 
-st.sidebar.success("Select a demo above.")
+st.sidebar.success("Selectionnez une page")
 
 st.markdown(
     """
-    This website is a compilation of GenAI demos, built with Streamlit and
-    deployed with AWS CDK.
+    Ce site vous permet de vous inscrire à une course.
     
-    
-    **👈 Select a demo from the sidebar** to see some examples.
-    These demos use Amazon Bedrock, an easy to use service to access
-    foundation models through an API.
-    ### Want to learn more?
-    - Check out [streamlit.io](https://streamlit.io)
-    - Ask a question your AWS Solutions Architect
+    **👈 Sélectionnez la page d'inscription pour commencer à enregistrer vos bateaux.**
+   
 """
 )
